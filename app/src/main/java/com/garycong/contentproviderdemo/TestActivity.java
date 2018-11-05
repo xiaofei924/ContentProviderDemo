@@ -1,7 +1,9 @@
 package com.garycong.contentproviderdemo;
 
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -68,6 +70,26 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        /**
+         * 指定uri的contentprovider的数据有变化时通知会回调onChang方法
+         */
+        getContentResolver().registerContentObserver(uri, true, new ContentObserver(new Handler()) {
+            @Override
+            public boolean deliverSelfNotifications() {
+                return super.deliverSelfNotifications();
+            }
+
+            @Override
+            public void onChange(boolean selfChange) {
+                super.onChange(selfChange);
+            }
+
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                super.onChange(selfChange, uri);
             }
         });
     }
