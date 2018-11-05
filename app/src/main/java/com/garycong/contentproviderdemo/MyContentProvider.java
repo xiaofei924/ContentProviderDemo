@@ -1,7 +1,6 @@
 package com.garycong.contentproviderdemo;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,12 +9,6 @@ import android.net.Uri;
 public class MyContentProvider extends ContentProvider {
     private SQLiteDatabase mDb;
     public MyContentProvider() {
-    }
-
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
@@ -41,10 +34,20 @@ public class MyContentProvider extends ContentProvider {
     }
 
     @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        // Implement this to handle requests to delete one or more rows.
+//        throw new UnsupportedOperationException("Not yet implemented");
+        return mDb.delete(DbOpenHelper.NEWS_TABLE_NAME, selection, selectionArgs);
+    }
+
+    @Override
     public Uri insert(Uri uri, ContentValues values) {
         // TODO: Implement this to handle requests to insert a new row.
 //        throw new UnsupportedOperationException("Not yet implemented");
 
+
+//        throw new UnsupportedOperationException("Not yet implemented");
+        mDb.insert(DbOpenHelper.NEWS_TABLE_NAME, null, values);
         getContext().getContentResolver().notifyChange(uri, null);
         return uri;
     }
@@ -60,7 +63,11 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+//        // TODO: Implement this to handle requests to update one or more rows.
+        int id = mDb.update(DbOpenHelper.NEWS_TABLE_NAME, values, selection, selectionArgs);
+//        if (id > 0) {
+
+            return id;
+//        }
     }
 }

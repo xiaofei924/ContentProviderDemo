@@ -1,5 +1,6 @@
 package com.garycong.contentproviderdemo;
 
+import android.content.ContentValues;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -55,20 +56,27 @@ public class TestActivity extends AppCompatActivity {
         mInsertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("time", "09:02");
+                contentValues.put("content", "周末又要过完了，明天上班了，调整好心态，没有那么不好，都是自己的邪念在作祟，你是最棒的，加油！！！\n");
+                getContentResolver().insert(uri, contentValues);
             }
         });
 
         mUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("time", "11:12");
+                contentValues.put("content", "光棍节过了，不要伤心了！！！\n");
+                getContentResolver().update(uri, contentValues, "time = ?", new String[]{"11:11"});
             }
         });
 
         mDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getContentResolver().delete(uri, "time = ?", new String[]{"09:02"});
 
             }
         });
